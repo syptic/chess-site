@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Defining Radial Gradient for Shadows -->
+    <defs>
+        <radialGradient id="shadowGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:rgb(60, 60, 60); stop-opacity:1" />
+            <stop offset="70%" style="stop-color:rgb(20, 20, 20); stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(10, 10, 10); stop-opacity:1" />
+        </radialGradient>
+    </defs>
+
+    <!-- Base of the Rook -->
+    <circle cx="100" cy="100" r="80" fill="url(#shadowGradient)" />
+
+    <!-- Trunk of the Rook -->
+    <rect x="57.5" y="57.5" width="85" height="85" fill="url(#shadowGradient)" />
+
+    <!-- Turrets of the Rook -->
+    <rect x="55" y="55" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="92.5" y="55" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="130" y="55" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="55" y="92.5" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="130" y="92.5" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="55" y="130" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="92.5" y="130" width="15" height="15" fill="url(#shadowGradient)" />
+    <rect x="130" y="130" width="15" height="15" fill="url(#shadowGradient)" />
+
+</svg>

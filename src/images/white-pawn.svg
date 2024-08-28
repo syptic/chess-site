@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Defining Radial Gradient for Shadows -->
+    <defs>
+        <radialGradient id="lightShadowGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:rgb(230, 230, 230); stop-opacity:1" />
+            <stop offset="70%" style="stop-color:rgb(180, 180, 180); stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(150, 150, 150); stop-opacity:1" />
+        </radialGradient>
+    </defs>
+
+    <!-- Base of the Pawn -->
+    <circle cx="100" cy="100" r="95" fill="url(#lightShadowGradient)" />
+
+    <!-- Middle Section of the Pawn -->
+    <circle cx="100" cy="100" r="30" fill="url(#lightShadowGradient)" />
+
+</svg>
