@@ -28,7 +28,11 @@ jobs:
         run: |
           git config --global user.email "samayg1999@gmail.com"
           git config --global user.name "Samay Gandhi"
-
+          
+      - name: Debug Git configuration
+        run: |
+          git config --global --list
+          
       - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
