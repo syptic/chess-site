@@ -23,12 +23,6 @@ function Board() {
   const [isWhiteTurn, setIsWhiteTurn] = useState(true);
   const [sourceBlock, setSourceBlock] = useState<string | null>(null);
 
-  useEffect(() => {
-    setIsWhiteTurn(val => !val);
-    console.log("piecesInfo updated", piecesInfo);
-
-  }, [piecesInfo]);
-
   const canMovePiece = useCallback((fromX: number, fromY: number, toX: number, toY: number) => {
     return canMovePieceUtil(piecesInfo, fromX, fromY, toX, toY);
   }, [piecesInfo]);
@@ -49,7 +43,7 @@ function Board() {
 
   return (
 
-    <BoardContext.Provider value={{ piecesInfo, setPiecesInfo, isWhiteTurn }}>
+    <BoardContext.Provider value={{ piecesInfo, setPiecesInfo, isWhiteTurn, setIsWhiteTurn }}>
       <DraggingContext.Provider value={{
         sourceBlockState: [sourceBlock, setSourceBlock],
         canDropPiece: canMovePiece

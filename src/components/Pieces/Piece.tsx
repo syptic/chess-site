@@ -30,8 +30,7 @@ function Piece({ pieceStr, color, blockId }: PieceProps) {
     const shadowFill: InnerPieceProps = {
         shadowFill: color === "white" ? "url(#whiteShadowGradient)" : "url(#blackShadowGradient)"
     };
-    const isDraggable = useMemo(() => true || (isWhiteTurn && color === "white") || (!isWhiteTurn && color === "black"), [color, isWhiteTurn]);
-    console.log("Piece", pieceStr, color, blockId, isWhiteTurn, blockId, isDraggable);
+    const isDraggable = useMemo(() => (isWhiteTurn && color === "white") || (!isWhiteTurn && color === "black"), [color, isWhiteTurn]);
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         if (!isDraggable) {
@@ -41,17 +40,31 @@ function Piece({ pieceStr, color, blockId }: PieceProps) {
         e.stopPropagation();
         sourceBlockState?.[1] && sourceBlockState[1](blockId);
         e.dataTransfer.effectAllowed = "move";
-        console.log("handleDragStart", e, blockId);
+
+        // Fix to strictly drag the visible SVG without surrounding padding
+        const svgElement = e.currentTarget.querySelector('svg');
+        if (svgElement) {
+            e.dataTransfer.setDragImage(svgElement, svgElement.clientWidth / 2, svgElement.clientHeight / 2);
+        }
+
+        // Hide original piece slightly after drag starts to prevent duplicating visually
+        setTimeout(() => {
+            if (e.target instanceof HTMLElement) {
+                e.target.style.opacity = '0';
+            }
+        }, 0);
     };
 
     const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         sourceBlockState[1] && sourceBlockState[1](null);
-        console.log("handleDragEnd", e);
+        if (e.target instanceof HTMLElement) {
+            e.target.style.opacity = '1';
+        }
     };
     return (
-        <div draggable={isDraggable} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <svg width="100%" height="100%" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <div draggable={isDraggable} onDragStart={handleDragStart} onDragEnd={handleDragEnd} className="w-full h-full flex justify-center items-center overflow-visible cursor-grab active:cursor-grabbing">
+            <svg width="85%" height="85%" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style={{ pointerEvents: 'none' }}>
                 <title>{color + " " + pieceStr}</title>
                 {color === "black" ? <BlackShadow /> : <WhiteShadow />}
                 <InnerPiece {...shadowFill} />

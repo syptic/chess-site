@@ -14,7 +14,7 @@ interface BlockProps extends Coordinate {
 
 function Block({ x, y, blockId }: BlockProps) {
     const isBlack = (x + y) % 2;
-    const { piecesInfo, setPiecesInfo }: BoardContextType = useContext(BoardContext);
+    const { piecesInfo, setPiecesInfo, setIsWhiteTurn }: BoardContextType = useContext(BoardContext);
     const { sourceBlockState, canDropPiece }: DraggingContaxtType = useContext(DraggingContext);
 
     const shownPiece = () => {
@@ -49,6 +49,12 @@ function Block({ x, y, blockId }: BlockProps) {
             throw new Error("No source block provided");
         }
         const [fromY, fromX] = sourceBlockState[0]?.split(",").map(Number);
+        if (fromX === x && fromY === y) return; // Dropped on the same square
+
+        const canDrop = canDropPiece(fromX, fromY, x, y);
+
+        if (!canDrop) return; // Disallow drop via logic check
+
         const pieceData = piecesInfo?.[fromY]?.[fromX];
         if (!pieceData) {
             throw new Error("No piece data provided");
@@ -59,11 +65,12 @@ function Block({ x, y, blockId }: BlockProps) {
             newPieceInfo[y][x] = pieceData;
             return newPieceInfo;
         });
-        console.log("handleDrop", piecesInfo, blockId);
+
+        setIsWhiteTurn && setIsWhiteTurn(val => !val);
     };
 
     return (
-        <div onDragOver={handleDragOver} onDrop={handleDrop} className={`w-1/8 h-1/8 ${isBlack ? 'bg-gray-00' : 'bg-gray-500'}`}
+        <div onDragOver={handleDragOver} onDrop={handleDrop} className={`w-full h-full ${isBlack ? 'bg-[#ffce9e]' : 'bg-[#d18b47]'}`}
         >
             {shownPiece()}
         </div >
